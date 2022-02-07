@@ -1,6 +1,7 @@
 import * as THREE from "https://cdn.skypack.dev/three@0.130.0";
 import { OrbitControls } from 'https://cdn.skypack.dev/three@0.130.0/examples/jsm/controls/OrbitControls.js';
 import { SVGLoader } from 'https://cdn.skypack.dev/three@0.130.0/examples/jsm/loaders/SVGLoader.js';
+import {TextureLoader} from 'https://cdn.skypack.dev/three@0.130.0/src/loaders/TextureLoader.js';
 
 // svg.js
 const fillMaterial = new THREE.MeshBasicMaterial({ color: "#F3FBFB" });
@@ -31,15 +32,16 @@ const renderSVG = (extrusion, svg) => {
                     depth: extrusion,
                     bevelEnabled: false,
                 });
+                const loader = new TextureLoader();
                 
-
                 if (path.userData.node.id === '3DStand') {
                             console.log(shape);
                         {   
                             if (shape.curves[0].v1.y === shape.curves[0].v2.y && shape.curves[0].v1.x < shape.curves[0].v2.x){
-                                const materialBox = new THREE.MeshBasicMaterial( {color: "#454B1B"} );
                                 const geometryBox = new THREE.BoxGeometry( Math.abs(shape.curves[0].v2.x - shape.curves[0].v1.x), 10,
                                     Math.abs(shape.curves[1].v2.y - shape.curves[1].v1.y) );
+                                const texture = new TextureLoader().load( 'stand.jpg' );
+                                const materialBox = new THREE.MeshBasicMaterial( {map: texture} );
 
                                 const cube = new THREE.Mesh( geometryBox, materialBox );
                                 cube.position.x = shape.curves[0].v1.x  - 222.84459686279297 + (shape.curves[0].v2.x - shape.curves[0].v1.x)/2;
