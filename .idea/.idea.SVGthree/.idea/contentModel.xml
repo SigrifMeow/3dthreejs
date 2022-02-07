@@ -8,6 +8,7 @@
     <e p="C:\Users\Sigrif\AppData\Roaming\JetBrains\Rider2020.2\extensions" t="IncludeRecursive" />
     <e p="C:\Users\Sigrif\AppData\Roaming\JetBrains\Rider2020.2\javascript\nodejs\12.14.1\core-modules" t="IncludeRecursive" />
     <e p="F:\MyProjects\SVGthree" t="IncludeRecursive">
+      <e p=".travis.yml" t="Include" />
       <e p="App_Data" t="Include" />
       <e p="App_Start" t="Include">
         <e p="BundleConfig.cs" t="Include" />

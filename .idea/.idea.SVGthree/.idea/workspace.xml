@@ -31,11 +31,12 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be301d57-bda3-4b0e-a1b6-3d32bb3e0b37" name="Default Changelist" comment="init">
-      <change afterPath="$PROJECT_DIR$/PAGE-NAME.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/deploy.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/svg-threejs/vite-project/vite.config.js" afterDir="false" />
+    <list default="true" id="be301d57-bda3-4b0e-a1b6-3d32bb3e0b37" name="Default Changelist" comment="deploy pages">
+      <change afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SVGthree/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SVGthree/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SVGthree/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SVGthree/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SVGthree.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SVGthree.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/svg-threejs/vite-project/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/svg-threejs/vite-project/main.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,11 +57,12 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Scripts/main.js" />
-        <option value="$PROJECT_DIR$/svg-threejs/vite-project/main.js" />
         <option value="$PROJECT_DIR$/Views/Home/Index.cshtml" />
         <option value="$PROJECT_DIR$/PAGE-NAME.md" />
         <option value="$PROJECT_DIR$/deploy.sh" />
         <option value="$PROJECT_DIR$/svg-threejs/vite-project/vite.config.js" />
+        <option value="$PROJECT_DIR$/.travis.yml" />
+        <option value="$PROJECT_DIR$/svg-threejs/vite-project/main.js" />
       </list>
     </option>
   </component>
@@ -110,7 +112,10 @@
       <updated>1642483891819</updated>
       <workItem from="1642483900121" duration="7837000" />
       <workItem from="1642506206903" duration="7342000" />
-      <workItem from="1642668604225" duration="5889000" />
+      <workItem from="1642668604225" duration="7860000" />
+      <workItem from="1643697422707" duration="4673000" />
+      <workItem from="1643975440066" duration="21813000" />
+      <workItem from="1644229130962" duration="4509000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1642672031726</created>
@@ -119,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642672031726</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="deploy pages">
+      <created>1642676249359</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1642676249359</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -154,7 +166,8 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="deploy pages" />
+    <option name="LAST_COMMIT_MESSAGE" value="deploy pages" />
   </component>
   <component name="WindowStateProjectService">
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1642670983437">
@@ -165,22 +178,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="647" y="310" key="Github.ShareDialog/0.0.1536.824@0.0.1536.824" timestamp="1642675345464" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1642676015725">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1642750103629">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1642676015725" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1642676015725">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1642750103629" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1642750103628">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1642676015725" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1642676015725">
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1642750103628" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1642750103626">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1642676015725" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1642676015725">
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1642750103626" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1642750103628">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1642676015725" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1642750103628" />
     <state x="361" y="144" key="Rider.ProjectTemplateDialog.Size" timestamp="1642483893210">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -189,10 +202,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1642670813000" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1642675357397">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1642676584974">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1642675357397" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1642676584974" />
     <state x="567" y="314" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1642675305730">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

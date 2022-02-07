@@ -5,56 +5,114 @@ import { SVGLoader } from 'https://cdn.skypack.dev/three@0.130.0/examples/jsm/lo
 // svg.js
 const fillMaterial = new THREE.MeshBasicMaterial({ color: "#F3FBFB" });
 const stokeMaterial = new THREE.LineBasicMaterial({
-    color: "#00A5E6",
-});
+    color: "#000000",
+    side: THREE.doubleSided});
 const renderSVG = (extrusion, svg) => {
     const loader = new SVGLoader();
     const svgData = loader.parse(svg);
     const svgGroup = new THREE.Group();
     const svgGroup3D = new THREE.Group();
-
+    
+    const geometryBox = new THREE.BoxGeometry();
+    
     const updateMap = [];
 
     svgGroup.scale.y *= -1;
     svgGroup3D.scale.y *=-1;
+    
+    let boxCoordCount = 0;
+    let lastCoords = new Float32Array(4);
     svgData.paths.forEach((path) => {
-        console.log(path.userData.node.id);
+        //console.log(path.userData.node.id);
+        if (boxCoordCount < 400) {
             const shapes = SVGLoader.createShapes(path);
-
             shapes.forEach((shape) => {
                 const meshGeometry = new THREE.ExtrudeBufferGeometry(shape, {
                     depth: extrusion,
                     bevelEnabled: false,
                 });
                 
-                if (path.userData.node.id === '3DStand') {
-                    const linesGeometry = new THREE.EdgesGeometry(new THREE.ExtrudeBufferGeometry(shape, {
-                        depth: 5,
-                        bevelEnabled: false,
-                    }));
-                    const mesh = new THREE.Mesh(meshGeometry, new THREE.MeshBasicMaterial({ color: "#red" }));
-                    const lines = new THREE.LineSegments(linesGeometry, stokeMaterial);
-                    updateMap.push({shape, mesh, lines});
-                    svgGroup3D.add(mesh, lines);
-                }else{
-                    const linesGeometry = new THREE.EdgesGeometry(new THREE.ExtrudeBufferGeometry(shape, {
-                        depth: 1,
-                        bevelEnabled: false,
-                    }));
-                    const mesh = new THREE.Mesh(meshGeometry, new THREE.MeshBasicMaterial({ color: "#gray" }));
-                    const lines = new THREE.LineSegments(linesGeometry, stokeMaterial);
-                    updateMap.push({shape, mesh, lines});
-                    svgGroup.add(mesh, lines);  
-                }
-            });
-        
-    });
 
+                if (path.userData.node.id === '3DStand') {
+                            console.log(shape);
+                        {   
+                            if (shape.curves[0].v1.y === shape.curves[0].v2.y && shape.curves[0].v1.x < shape.curves[0].v2.x){
+                                const materialBox = new THREE.MeshBasicMaterial( {color: "#454B1B"} );
+                                const geometryBox = new THREE.BoxGeometry( Math.abs(shape.curves[0].v2.x - shape.curves[0].v1.x), 10,
+                                    Math.abs(shape.curves[1].v2.y - shape.curves[1].v1.y) );
+
+                                const cube = new THREE.Mesh( geometryBox, materialBox );
+                                cube.position.x = shape.curves[0].v1.x  - 222.84459686279297 + (shape.curves[0].v2.x - shape.curves[0].v1.x)/2;
+                                cube.position.y = 1;
+                                cube.position.z = shape.curves[1].v1.y - 416.6041774749756 + (shape.curves[1].v2.y - shape.curves[1].v1.y)/2;
+
+                                scene.add( cube );
+                            }
+                            else if(shape.curves[0].v1.y > shape.curves[0].v2.y && shape.curves[0].v1.x === shape.curves[0].v2.x){
+                                const materialBox = new THREE.MeshBasicMaterial( {color: "#B22222"} );
+                                const geometryBox = new THREE.BoxGeometry( Math.abs(shape.curves[3].v2.x - shape.curves[3].v1.x), 10, 
+                                    Math.abs(shape.curves[2].v2.y - shape.curves[2].v1.y) );
+
+                                const cube = new THREE.Mesh( geometryBox, materialBox );
+                                cube.position.x = shape.curves[3].v1.x  - 222.84459686279297 + (shape.curves[3].v2.x - shape.curves[3].v1.x)/2;
+                                cube.position.y = 1;
+                                cube.position.z = shape.curves[2].v1.y - 416.6041774749756 + (shape.curves[2].v2.y - shape.curves[2].v1.y)/2;
+
+                                scene.add( cube );
+                            }
+                            else if(shape.curves[0].v1.y === shape.curves[0].v2.y && shape.curves[0].v1.x > shape.curves[0].v2.x){
+                                const materialBox = new THREE.MeshBasicMaterial( {color: "#ffff00"} );
+                                const geometryBox = new THREE.BoxGeometry( Math.abs(shape.curves[2].v2.x - shape.curves[2].v1.x), 10,
+                                    Math.abs(shape.curves[1].v2.y - shape.curves[1].v1.y) );
+
+                                const cube = new THREE.Mesh( geometryBox, materialBox );
+                                cube.position.x = shape.curves[2].v1.x  - 222.84459686279297 + (shape.curves[2].v2.x - shape.curves[2].v1.x)/2;
+                                cube.position.y = 1;
+                                cube.position.z = shape.curves[1].v1.y - 416.6041774749756 + (shape.curves[1].v2.y - shape.curves[1].v1.y)/2;
+
+                                scene.add( cube );
+                            }
+                            else if(shape.curves[0].v1.y < shape.curves[0].v2.y && shape.curves[0].v1.x === shape.curves[0].v2.x){
+                                const materialBox = new THREE.MeshBasicMaterial( {color: "#9f2b68"} );
+                                const geometryBox = new THREE.BoxGeometry( Math.abs(shape.curves[1].v2.x - shape.curves[1].v1.x), 10,
+                                    Math.abs(shape.curves[0].v2.y - shape.curves[0].v1.y) );
+
+                                const cube = new THREE.Mesh( geometryBox, materialBox );
+                                cube.position.x = shape.curves[1].v1.x  - 222.84459686279297 + (shape.curves[1].v2.x - shape.curves[1].v1.x)/2;
+                                cube.position.y = 1;
+                                cube.position.z = shape.curves[0].v1.y - 416.6041774749756 + (shape.curves[0].v2.y - shape.curves[0].v1.y)/2;
+
+                                scene.add( cube );
+                            }
+                        }
+                        const linesGeometry = new THREE.EdgesGeometry(new THREE.ExtrudeBufferGeometry(shape, {
+                            depth: 7,
+                            bevelEnabled: false,
+                        }));
+                        const mesh = new THREE.Mesh(meshGeometry, new THREE.MeshBasicMaterial({color: "#C0C0C0"}));
+                        const lines = new THREE.LineSegments(linesGeometry, stokeMaterial);
+                        updateMap.push({shape, mesh, lines});
+                        svgGroup3D.add(mesh, lines);
+                        boxCoordCount++;
+                    } else {
+                        const linesGeometry = new THREE.EdgesGeometry(new THREE.ExtrudeBufferGeometry(shape, {
+                            depth: 1,
+                            bevelEnabled: false,
+                        }));
+                        const mesh = new THREE.Mesh(meshGeometry, new THREE.MeshBasicMaterial({color: "#F3FBFB"}));
+                        const lines = new THREE.LineSegments(linesGeometry, stokeMaterial);
+                        updateMap.push({shape, mesh, lines});
+                        svgGroup.add(mesh, lines);
+                    }
+            });
+            
+        }
+    });
     const box = new THREE.Box3().setFromObject(svgGroup);
     const size = box.getSize(new THREE.Vector3());
     const yOffset = size.y / -2;
     const xOffset = size.x / -2;
-
+console.log(yOffset, xOffset)
     // Offset all of group's elements, to center them
     svgGroup3D.children.forEach((item) => {
         item.position.x = xOffset;
@@ -187,14 +245,14 @@ const svg = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="
   </g>
    <g id="stands">
   <metadata id="CorelCorpID_1Corel-Layer"></metadata>
-  <polygon id="3DStand" class="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,800.33 572.3,800.33 572.3,855.97 548.56,855.97 "></polygon>
+  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,800.33 572.3,800.33 572.3,855.97 548.56,855.97 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,779.46 572.3,779.46 572.3,800.33 548.56,800.33 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,723.82 572.3,723.82 572.3,758.6 548.56,758.6 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,696 572.3,696 572.3,723.82 548.56,723.82 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="501.06,693.13 528.2,693.13 528.2,730.45 501.06,730.45 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,661.22 572.3,661.22 572.3,696 548.56,696 "></polygon>
-  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,629.92 548.56,650.79 572.3,650.79 572.3,629.92 "></polygon>
-  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="572.3,629.92 572.3,611.72 548.56,611.72 548.56,629.92 "></polygon>
+  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,629.92 572.3,629.92 572.3,650.79 548.56,650.79 "></polygon>
+  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="572.3,629.92 548.56,629.92 548.56,611.72 572.3,611.72 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="507.85,604.93 528.2,604.93 528.2,638.85 507.85,638.85 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,584.71 572.3,584.71 572.3,611.72 548.56,611.72 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,567.32 572.3,567.32 572.3,584.71 548.56,584.71 "></polygon>
@@ -206,11 +264,12 @@ const svg = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="528.2,455.66 528.2,435.31 497.66,435.31 497.66,455.66 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="497.69,408.17 528.22,408.17 528.22,435.31 497.69,435.31 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,351.71 572.3,351.71 572.3,387.82 548.56,387.82 "></polygon>
-  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="497.67,349.82 497.67,387.81 528.2,387.81 528.2,349.82 528.22,349.82 528.22,340.32 497.69,340.32 497.69,349.82 "></polygon>
-  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="528.22,340.32 528.22,306.4 497.69,306.4 497.69,340.32 "></polygon>
-  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,334.32 548.56,351.71 572.3,351.71 572.3,334.32 "></polygon>
-  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,320.41 548.56,334.32 572.3,334.32 572.3,320.41 "></polygon>
-  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,306.5 548.56,320.41 572.3,320.41 572.3,306.5 "></polygon>
+  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="497.67,349.82 528.2,349.82 528.2,387.81 497.67,387.81  "></polygon>
+   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="528.22,349.82 497.69,349.82 497.69,340.32 528.22,340.32  "></polygon>
+  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="528.22,340.32 497.69,340.32 497.69,306.4 528.22,306.4 "></polygon>
+  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,334.32 572.3,334.32 572.3,351.71 548.56,351.71 "></polygon>
+  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,320.41 572.3,320.41 572.3,334.32 548.56,334.32 "></polygon>
+  <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,306.5 572.3,306.5 572.3,320.41 548.56,320.41"></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="572.3,306.5 572.3,292.59 548.56,292.59 548.56,306.5 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="572.3,292.59 572.3,278.68 548.56,278.68 548.56,292.59 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="572.3,278.68 572.3,264.77 548.56,264.77 548.56,278.68 "></polygon>
@@ -220,7 +279,7 @@ const svg = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,205.65 548.56,219.56 572.3,219.56 572.3,205.65 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,191.74 548.56,205.65 572.3,205.65 572.3,191.74 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="548.56,177.83 548.56,191.74 572.3,191.74 572.3,177.83 "></polygon>
-  <polygon id="3DStand" fill="#cccccc" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="489.79,235.16 507.84,235.16 507.84,221.59 489.79,221.59 " class="unavailable"></polygon>
+  <polygon id="3DStand" fill="#white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="489.79,235.16 507.84,235.16 507.84,221.59 489.79,221.59 " class="unavailable"></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="572.3,177.83 572.3,163.92 548.56,163.92 548.56,177.83 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="467.13,96.07 467.13,143.56 545.16,143.56 545.16,96.07 " class="null"></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="467.16,788.12 528.22,788.12 528.22,855.97 467.16,855.97 "></polygon>
@@ -248,7 +307,7 @@ const svg = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="528.2,187.66 528.2,163.92 467.13,163.92 467.13,187.66 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="426.42,191.05 426.42,235.16 446.78,235.16 446.78,191.05 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="426.42,163.92 446.78,163.92 446.78,191.05 426.42,191.05 "></polygon>
-  <polygon id="3DStand" fill="#cccccc" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="345.03,462.24 372.17,462.24 372.17,503.16 345.03,503.16 " class="unavailable"></polygon>
+  <polygon id="3DStand" fill="#white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="345.03,462.24 372.17,462.24 372.17,503.16 345.03,503.16 " class="unavailable"></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="348.4,876.32 392.5,876.32 392.5,909.23 348.4,909.23 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="392.5,798.3 446.78,798.3 446.78,855.97 392.5,855.97 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="345.01,754.2 372.15,754.2 372.15,822.05 345.01,822.05 "></polygon>
@@ -292,8 +351,8 @@ const svg = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="297.52,163.92 270.38,163.92 270.38,201.23 297.52,201.23 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="270.38,201.23 270.38,235.16 297.52,235.16 297.52,201.23 " class="null"></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="317.87,235.16 317.87,258.9 372.15,258.9 372.15,235.16 "></polygon>
-  <polygon id="3DStand" fill="#cccccc" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="317.87,191.06 317.87,235.16 345.01,235.16 345.01,191.06 " class="unavailable"></polygon>
-  <polygon id="3DStand" fill="#cccccc" stroke="#E31E24" stroke-width="1.73" stroke-miterlimit="22.9256" points="260.2,102.85 280.55,102.85 280.55,143.56 260.2,143.56 " class="unavailable"></polygon>
+  <polygon id="3DStand" fill="#white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="317.87,191.06 317.87,235.16 345.01,235.16 345.01,191.06 " class="unavailable"></polygon>
+  <polygon id="3DStand" fill="#white" stroke="#E31E24" stroke-width="1.73" stroke-miterlimit="22.9256" points="260.2,102.85 280.55,102.85 280.55,143.56 260.2,143.56 " class="unavailable"></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="243.23,811.87 297.51,811.87 297.51,855.97 243.23,855.97 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="243.24,784.73 270.37,784.73 270.37,811.87 243.24,811.87 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="199.17,754.2 222.92,754.2 222.92,801.69 199.17,801.69 "></polygon>
@@ -330,7 +389,7 @@ const svg = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="175.38,523.51 195.74,523.51 195.74,550.65 175.38,550.65 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="155.03,526.91 155.03,476.02 127.89,476.02 127.89,526.91 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="127.89,452.27 127.89,476.02 155.03,476.02 155.03,452.27 "></polygon>
-  <polygon id="3DStand" fill="#cccccc" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="155.03,452.27 155.03,425.13 127.89,425.13 127.89,452.27 " class="unavailable"></polygon>
+  <polygon id="3DStand" fill="#white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="155.03,452.27 155.03,425.13 127.89,425.13 127.89,452.27 " class="unavailable"></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="175.38,462.45 175.38,503.16 222.88,503.16 222.88,462.45 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="199.13,435.31 175.38,435.31 175.38,462.45 199.13,462.45 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="175.38,408.17 175.38,435.31 222.88,435.31 222.88,408.17 "></polygon>
@@ -344,14 +403,14 @@ const svg = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="127.9,204.62 127.9,231.76 155.03,231.76 155.03,204.62 " class="null"></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="175.39,258.9 222.88,258.9 222.88,163.92 175.39,163.92 " class="null"></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="155.03,163.92 127.9,163.92 127.9,204.62 155.03,204.62 " class="null"></polygon>
-  <polygon id="3DStand" fill="#cccccc" stroke="#E31E24" stroke-width="1.73" stroke-miterlimit="22.9256" points="260.19,48.57 280.54,48.57 280.54,85.89 260.19,85.89 " class="unavailable"></polygon>
-  <polygon id="3DStand" fill="#FEFEFE" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="243.24,208.02 243.24,235.16 270.38,235.16 270.38,208.02 " class="null"></polygon>
-  <polygon id="3DStand" fill="#cccccc" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="501.06,201.23 528.2,201.23 528.2,187.66 501.06,187.66 " class="unavailable"></polygon>
-  <polygon id="3DStand" fill="#cccccc" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="243.24,163.92 270.38,163.92 270.38,208.02 243.24,208.02 " class="unavailable"></polygon>
+  <polygon id="3DStand" fill="#white" stroke="#E31E24" stroke-width="1.73" stroke-miterlimit="22.9256" points="260.19,48.57 280.54,48.57 280.54,85.89 260.19,85.89 " class="unavailable"></polygon>
+  <polygon id="3DStand" fill="#white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="243.24,208.02 243.24,235.16 270.38,235.16 270.38,208.02 " class="null"></polygon>
+  <polygon id="3DStand" fill="#white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="501.06,201.23 528.2,201.23 528.2,187.66 501.06,187.66 " class="unavailable"></polygon>
+  <polygon id="3DStand" fill="#white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="243.24,163.92 270.38,163.92 270.38,208.02 243.24,208.02 " class="unavailable"></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="413.93,876.32 473.92,876.32 473.92,909.23 413.93,909.23 "></polygon>
-  <polygon id="3DStand" fill="#cccccc" stroke="#E31E24" stroke-width="1.73" stroke-miterlimit="22.9256" points="379.96,48.57 379.96,143.56 440.51,143.56 440.51,48.57 " class="unavailable"></polygon>
-  <polygon id="3DStand" fill="#cccccc" stroke="#E31E24" stroke-width="1.73" stroke-miterlimit="22.9256" points="317.87,48.57 317.87,143.56 379.96,143.56 379.96,48.57 " class="unavailable"></polygon>
-  <polygon id="3DStand" fill="#cccccc" stroke="#E31E24" stroke-width="1.73" stroke-miterlimit="22.9256" points="127.9,48.57 127.9,143.56 236.45,143.56 236.45,48.57 " class="unavailable"></polygon>
+  <polygon id="3DStand" fill="#white" stroke="#E31E24" stroke-width="1.73" stroke-miterlimit="22.9256" points="379.96,48.57 379.96,143.56 440.51,143.56 440.51,48.57 " class="unavailable"></polygon>
+  <polygon id="3DStand" fill="#white" stroke="#E31E24" stroke-width="1.73" stroke-miterlimit="22.9256" points="317.87,48.57 317.87,143.56 379.96,143.56 379.96,48.57 " class="unavailable"></polygon>
+  <polygon id="3DStand" fill="#white" stroke="#E31E24" stroke-width="1.73" stroke-miterlimit="22.9256" points="127.9,48.57 127.9,143.56 236.45,143.56 236.45,48.57 " class="unavailable"></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="297.51,353.89 270.37,353.89 270.37,387.81 297.51,387.81 "></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="243.24,408.17 270.37,408.17 270.37,469.23 243.24,469.23 " class="null"></polygon>
   <polygon id="3DStand" fill="white" stroke="#2B2A29" stroke-width="0.12" stroke-miterlimit="22.9256" points="243.24,469.23 297.51,469.23 297.51,503.16 243.24,503.16 "></polygon>
